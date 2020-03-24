@@ -3,16 +3,13 @@ const mongoose = require('mongoose');
 const colors = require('colors');
 const dotenv = require('dotenv');
 
-// Load enc Vars
-
+// Load env vars
 dotenv.config({ path: './config/config.env' });
 
-//LOad models
-
+// Load models
 const Bootcamp = require('./models/Bootcamp');
 
 // Connect to DB
-
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -20,19 +17,16 @@ mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true
 });
 
-// Read JSON Files
-
+// Read JSON files
 const bootcamps = JSON.parse(
   fs.readFileSync(`${__dirname}/_data/bootcamps.json`, 'utf-8')
 );
 
 // Import into DB
-
 const importData = async () => {
   try {
     await Bootcamp.create(bootcamps);
-
-    console.log('Data Imported ...'.green.inverse);
+    console.log('Data Imported...'.green.inverse);
     process.exit();
   } catch (err) {
     console.error(err);
@@ -40,12 +34,10 @@ const importData = async () => {
 };
 
 // Delete data
-
 const deleteData = async () => {
   try {
     await Bootcamp.deleteMany();
-
-    console.log('Data Destroyes ...'.red.inverse);
+    console.log('Data Destroyed...'.red.inverse);
     process.exit();
   } catch (err) {
     console.error(err);
